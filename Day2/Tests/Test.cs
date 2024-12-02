@@ -43,16 +43,33 @@ public class Test
     public void TestInputPart2()
     {
         string input = """
-
+        7 6 4 2 1
+        1 2 7 8 9
+        9 7 6 2 1
+        1 3 2 4 5
+        8 6 4 4 1
+        1 3 6 7 9
         """;
         Puzzle puzzle = new Puzzle(input);
-        puzzle.Part2().ShouldBe("Some answer");
+        puzzle.Part2().ShouldBe("4");
+    }
+
+    [Theory]
+    [InlineData("7 6 4 2 1", true)]
+    [InlineData("1 2 7 8 9", false)]
+    [InlineData("9 7 6 2 1", false)]
+    [InlineData("1 3 2 4 5", true)]
+    [InlineData("8 6 4 4 1", true)]
+    [InlineData("1 3 6 7 9", true)]
+    public void TestIsSafeToleranceOne(string input, bool isSafe)
+    {
+        Puzzle.IsSafeToleranceOne(input).ShouldBe(isSafe);
     }
 
     [Fact]
     public void FinalPart2()
     {
         Puzzle puzzle = Puzzle.FromFile("inputs/puzzle-input.txt");
-        puzzle.Part2().ShouldBe("Answer Unknown");
+        puzzle.Part2().ShouldBe("398");
     }
 }

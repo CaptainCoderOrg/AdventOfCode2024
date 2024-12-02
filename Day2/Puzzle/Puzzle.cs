@@ -10,6 +10,20 @@ public class Puzzle
         Rows = Input.Split(Environment.NewLine);
     }
 
+    public static IEnumerable<IEnumerable<int>> RemoveOne(IEnumerable<int> inputs)
+    {
+        return Enumerable.Range(0, inputs.Count())
+                  .Select(ixToRemove => inputs.Where((value, ix) => ix != ixToRemove));
+    }
+
+    public static bool IsSafeToleranceOne(string input)
+    {
+        var values = input.Split(' ', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries)
+                                .Select(int.Parse);
+        var toleranceList = RemoveOne(values);
+        return toleranceList.Any(IsSafe);
+    }
+
     public static bool IsSafe(string input)
     {
         // [ 7, 6, 4, 2, 1 ]
@@ -18,7 +32,12 @@ public class Puzzle
         var values = input.Split(' ', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries)
                                 .Select(int.Parse);
 
-        var diffs = values.Zip(values.Skip(1))
+        return IsSafe(values);
+    }
+
+    public static bool IsSafe(IEnumerable<int> inputs)
+    {
+        var diffs = inputs.Zip(inputs.Skip(1))
                           .Select(pair => pair.First - pair.Second);
 
         return diffs.All(x => x >= 1 && x <= 3) || 
@@ -37,6 +56,6 @@ public class Puzzle
 
     public virtual string Part2()
     {
-        return "Unimplemented";
+        return Rows.Count(IsSafeToleranceOne).ToString();
     }
 }
