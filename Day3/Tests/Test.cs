@@ -45,21 +45,22 @@ public class Test
         puzzle.Part1().ShouldBe("175700056");
     }
 
-        [Fact]
+
+    [Fact]
     public void TestInputPart2()
     {
         string input = """
-        NOT SET
+        xmul(2,4)&mul[3,7]!^don't()_mul(5,5)+mul(32,64](mul(11,8)undo()?mul(8,5))
         """;
         input.Trim().ShouldNotBe("NOT SET");
         Puzzle puzzle = new Puzzle(input);
-        puzzle.Part2().ShouldBe("Some answer");
+        puzzle.Part2().ShouldBe("48");
     }
 
     [Fact]
     public void FinalPart2()
     {
         Puzzle puzzle = Puzzle.FromFile("inputs/puzzle-input.txt");
-        puzzle.Part2().ShouldBe("Answer Unknown");
+        puzzle.Part2().ShouldBe("71668682");
     }
 }
