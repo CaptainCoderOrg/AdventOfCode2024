@@ -94,18 +94,15 @@ public class Test
         [Fact]
     public void TestInputPart2()
     {
-        string input = """
-        NOT SET
-        """;
-        input.Trim().ShouldNotBe("NOT SET");
-        Puzzle puzzle = new Puzzle(input);
-        puzzle.Part2().ShouldBe("Some answer");
+        SampleInput.Trim().ShouldNotBe("NOT SET");
+        Puzzle puzzle = new Puzzle(SampleInput);
+        puzzle.Part2().ShouldBe("123");
     }
 
     [Fact]
     public void FinalPart2()
     {
         Puzzle puzzle = Puzzle.FromFile("inputs/puzzle-input.txt");
-        puzzle.Part2().ShouldBe("Answer Unknown");
+        puzzle.Part2().ShouldBe("6142");
     }
 }

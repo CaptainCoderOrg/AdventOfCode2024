@@ -56,9 +56,19 @@ public class Puzzle
         return ListOfManuals.Where(IsOrdered).Select(ls => ls[ls.Count/2]).Sum().ToString();
     }
 
+    public int Compare(int a, int b)
+    {
+        if (Rules.Contains(new Rule(a, b))) { return -1; }
+        return 1;
+    }
+
+
     public virtual string Part2()
     {
-        return "Unimplemented";
+        
+        IEnumerable<List<int>> unordered = ListOfManuals.Where(ls => !IsOrdered(ls));
+        var comparer = Comparer<int>.Create(Compare);
+        return unordered.Select(ls => ls.Order(comparer).ToList()).Sum(ls => ls[ls.Count/2]).ToString();
     }
 
 }
