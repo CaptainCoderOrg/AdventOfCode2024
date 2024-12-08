@@ -74,24 +74,22 @@ public class Test
     public void FinalPart1()
     {
         Puzzle puzzle = Puzzle.FromFile("inputs/puzzle-input.txt");
-        puzzle.Part1().ShouldBe("Answer Unknown");
+        puzzle.Part1().ShouldBe("276");
     }
 
-        [Fact]
+    [Fact]
     public void TestInputPart2()
     {
-        string input = """
-        NOT SET
-        """;
+        string input = SampleInput;
         input.Trim().ShouldNotBe("NOT SET");
         Puzzle puzzle = new Puzzle(input);
-        puzzle.Part2().ShouldBe("Some answer");
+        puzzle.Part2().ShouldBe("34");
     }
 
     [Fact]
     public void FinalPart2()
     {
         Puzzle puzzle = Puzzle.FromFile("inputs/puzzle-input.txt");
-        puzzle.Part2().ShouldBe("Answer Unknown");
+        puzzle.Part2().ShouldBe("991");
     }
 }

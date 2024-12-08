@@ -48,11 +48,14 @@ public class Puzzle
         return antis;
     }
 
+
     public static IEnumerable<Position> FindAntinodes(Position p0, Position p1)
     {
         yield return new Position(p0.Row - (p1.Row - p0.Row), p0.Col - (p1.Col - p0.Col));
         yield return new Position(p1.Row + (p1.Row - p0.Row), p1.Col + (p1.Col - p0.Col));
     }
+
+    
 
     public static Dictionary<char, List<Position>> FindAntennaDictionary(string[] grid)
     {
@@ -98,7 +101,55 @@ public class Puzzle
 
     public virtual string Part2()
     {
-        return "Unimplemented";
+        return FindAntennaDictionary(Rows)
+            .Values
+            .Select(FindRepeating)
+            .SelectMany(s => s)
+            .ToHashSet().Count().ToString();
+        
+        HashSet<Position> FindRepeating(IEnumerable<Position> antenna) => FindRepeatingAntinodes(antenna, Rows);
+    }
+
+    
+    public static HashSet<Position> FindRepeatingAntinodes(IEnumerable<Position> antenna, string[] grid)
+    {
+        HashSet<Position> antis = new();
+        foreach (Position p0 in antenna)
+        {
+            foreach (Position p1 in antenna) 
+            {
+                if (p0 == p1) { continue; }
+                antis.UnionWith(FindRepeatingAntinodes(p0, p1, grid));
+            }
+        }
+        return antis;
+    }
+
+    public static IEnumerable<Position> FindRepeatingAntinodes(Position p0, Position p1, string[] grid)
+    {
+        yield return p0;
+        yield return p1;
+        while (true)
+        {
+            Position antinode = new Position(p0.Row - (p1.Row - p0.Row), p0.Col - (p1.Col - p0.Col));
+            if (!InBounds(grid, antinode))
+            {
+                break;
+            }
+            yield return antinode;
+            (p0, p1) = (antinode, p0);
+        }
+
+        while (true)
+        {
+            Position antinode = new Position(p1.Row + (p1.Row - p0.Row), p1.Col + (p1.Col - p0.Col));
+            if (!InBounds(grid, antinode))
+            {
+                break;
+            }
+            yield return antinode;
+            (p0, p1) = (p1, antinode);
+        }
     }
 
 }
